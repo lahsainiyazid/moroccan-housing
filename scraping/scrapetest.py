@@ -45,7 +45,7 @@ for card in cards:
             location=location.get_text(strip=True)
         else:
             location="Not Specified"
-        if location=="Not Specified" and listing_url:
+        if("," not in location or  location=="Not Specified") and listing_url:
             location=get_detail_location(listing_url,scraper)
         prix=card.select_one("span.sc-b6852cba-2.dFgooy")
         if prix:
@@ -62,4 +62,4 @@ for card in cards:
     except Exception as e:
         print(f"Error:{e}")
 df=pd.DataFrame(listings)
-df.to_csv("test.csv",index=False,encoding="utf-8")
+df.to_csv("test_2.csv",index=False,encoding="utf-8")
