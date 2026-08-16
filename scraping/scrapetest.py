@@ -1,6 +1,15 @@
 import pandas as pd 
 import cloudscraper 
-from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup
+def get_detail_location(url,scraper):
+    response=scraper.get(url)
+    soup=BeautifulSoup(response.text,"html.parser")
+    location=soup.select_one("span.sc-16573058-17.gLkxLA")
+    if location:
+        return location.get_text(strip=True)
+    else:
+        return "Not Specified" 
+
 URL="https://www.avito.ma/fr/rabat/appartements-%C3%A0_vendre"
 scraper=cloudscraper.create_scraper(browser={"browser":"firefox","platform":"linux","mobile":False})
 response=scraper.get(URL)
@@ -10,6 +19,7 @@ cards = soup.select('a[data-testid^="ad-card-v2-"]')
 listings=[]
 for card in cards:
     try :
+        listing_url=card.get("href")
         surface=card.select_one('span[title="Surface totale"]')
         if surface:
             surface=surface.get_text(strip=True)
@@ -35,6 +45,8 @@ for card in cards:
             location=location.get_text(strip=True)
         else:
             location="Not Specified"
+        if location=="Not Specified" and listing_url:
+            location=get_detail_location(listing_url,scraper)
         prix=card.select_one("span.sc-b6852cba-2.dFgooy")
         if prix:
             prix=prix.get_text(strip=True)
@@ -50,4 +62,4 @@ for card in cards:
     except Exception as e:
         print(f"Error:{e}")
 df=pd.DataFrame(listings)
-df.to_csv("avito_rabat.csv",index=False,encoding="utf-8")
+df.to_csv("test.csv",index=False,encoding="utf-8")
