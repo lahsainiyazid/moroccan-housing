@@ -1,8 +1,8 @@
-import requests 
+import cloudscraper 
 from bs4 import BeautifulSoup 
 URL="https://www.avito.ma/fr/rabat/appartements-%C3%A0_vendre"
-headers={"User-Agent":"Mozilla/5.0"}
-response=requests.get(URL,headers=headers,timeout=20)
+scraper=cloudscraper.create_scraper(browser={"browser":"firefox","platform":"linux","mobile":False})
+response=scraper.get(URL)
 print(response.status_code)
 soup=BeautifulSoup(response.text,"html.parser")
 print(soup.title)
