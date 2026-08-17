@@ -67,7 +67,7 @@ for page in range(1,MAX_PAGES+1):
             print(f"Error:{e}")
 
 df=pd.DataFrame(listings)
-df.to_csv("temara.csv",index=False,encoding="utf-8")
+df.to_csv("casa.csv",index=False,encoding="utf-8")
 
 
 
