@@ -11,8 +11,8 @@ def get_detail_location(url,scraper):
     else:
         return "Not Specified" 
 
-URL="https://www.avito.ma/fr/rabat/appartements-%C3%A0_vendre"
-MAX_PAGES=20
+URL="https://www.avito.ma/fr/fes/appartements-%C3%A0_vendre"
+MAX_PAGES=30
 scraper=cloudscraper.create_scraper(browser={"browser":"firefox","platform":"linux","mobile":False})
 listings=[]
 for page in range(1,MAX_PAGES+1):
@@ -67,6 +67,8 @@ for page in range(1,MAX_PAGES+1):
             print(f"Error:{e}")
 
 df=pd.DataFrame(listings)
-df.to_csv("sale_20.csv",index=False,encoding="utf-8")
+df.to_csv("fes.csv",index=False,encoding="utf-8")
+
+
 
 
